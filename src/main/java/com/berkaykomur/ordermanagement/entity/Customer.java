@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -20,9 +19,6 @@ public class Customer extends BaseEntity{
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false,unique = true)
-    private String email;
-
     @Column(nullable = false ,unique = true)
     private String phoneNumber;
 
@@ -30,6 +26,10 @@ public class Customer extends BaseEntity{
     @Column(nullable = false)
     private CustomerStatus customerStatus;
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
     private List<CustomerAddress> customerAddress;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 }
