@@ -1,7 +1,14 @@
 package com.berkaykomur.ordermanagement.exception;
 
+import org.springframework.http.HttpStatus;
+
 public class BaseException extends RuntimeException {
-    public BaseException(String message) {
+    private final HttpStatus status;
+    public BaseException(String message, HttpStatus status) {
         super(message);
+        this.status = status;
+    }
+    public HttpStatus getStatus() {
+        return status;
     }
 }

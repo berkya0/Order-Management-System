@@ -20,5 +20,4 @@ public class ApiError {
     private final String path;
     private final Map<String, String> validationErrors;
 
-
 }
