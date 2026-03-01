@@ -1,9 +1,10 @@
 package com.berkaykomur.ordermanagement.entity;
 
-import com.berkaykomur.ordermanagement.enums.CustomerStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -11,16 +12,9 @@ import java.util.List;
 @Table(name = "customer")
 @Getter
 @Setter
-public class Customer extends BaseEntity{
-
-    @Column(nullable = false)
-    private String firstName;
-
-    @Column(nullable = false)
-    private String lastName;
-
-    @Column(nullable = false ,unique = true)
-    private String phoneNumber;
+@SQLDelete(sql = "UPDATE customer set is_active=false where id =?")
+@Where(clause = "is_active=true")
+public class Customer extends Person{
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

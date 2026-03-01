@@ -4,6 +4,8 @@ import com.berkaykomur.ordermanagement.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -11,6 +13,8 @@ import java.util.List;
 @Table(name ="users")
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE users set is_active=false where id =?")
+@Where(clause = "is_active=true")
 public class User extends BaseEntity {
     @Column(nullable = false,unique = true)
     private String username;
@@ -27,5 +31,6 @@ public class User extends BaseEntity {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Customer customer;
+
 
 }

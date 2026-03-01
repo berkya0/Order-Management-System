@@ -3,6 +3,8 @@ package com.berkaykomur.ordermanagement.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -10,6 +12,8 @@ import java.util.List;
 @Table(name = "product")
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE product set is_active=false where id =?")
+@Where(clause = "is_active=true")
 public class Product extends BaseEntity{
 
     private int stockQuantity;
@@ -27,4 +31,8 @@ public class Product extends BaseEntity{
 
     @OneToMany(mappedBy = "product",cascade = CascadeType.PERSIST)
     private List<OrderItem> orderItems;
+
+    @ManyToOne
+    @JoinColumn(name = "seller_id",nullable = false)
+    private Seller seller;
 }

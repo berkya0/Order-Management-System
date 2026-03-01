@@ -4,6 +4,8 @@ import com.berkaykomur.ordermanagement.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -11,6 +13,8 @@ import java.util.List;
 @Table(name = "orders")
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE orders set is_active=false where id =?")
+@Where(clause = "is_active=true")
 public class Order extends BaseEntity{
 
     @Enumerated(EnumType.STRING)

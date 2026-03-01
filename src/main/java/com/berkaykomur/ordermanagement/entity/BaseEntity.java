@@ -25,4 +25,7 @@ public abstract class BaseEntity {
     @Column(nullable = false,updatable = false)
     private LocalDateTime  createdDate;
 
+    @Column(name = "is_active",nullable = false)
+    private boolean isActive=true;
+
 }
