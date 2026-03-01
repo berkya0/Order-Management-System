@@ -1,6 +1,8 @@
 package com.berkaykomur.ordermanagement.service;
 
 import com.berkaykomur.ordermanagement.dto.*;
+import com.berkaykomur.ordermanagement.dto.refreshToken.RefreshTokenRequest;
+import com.berkaykomur.ordermanagement.dto.refreshToken.RefreshTokenResponse;
 
 public interface AuthService {
     RegisterResponse register(RegisterRequest request);

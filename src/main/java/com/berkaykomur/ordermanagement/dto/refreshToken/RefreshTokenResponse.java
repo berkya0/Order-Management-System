@@ -1,4 +1,4 @@
-package com.berkaykomur.ordermanagement.dto;
+package com.berkaykomur.ordermanagement.dto.refreshToken;
 
 import lombok.Getter;
 import lombok.Setter;

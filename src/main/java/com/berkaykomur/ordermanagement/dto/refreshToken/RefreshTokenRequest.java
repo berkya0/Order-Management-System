@@ -1,4 +1,4 @@
-package com.berkaykomur.ordermanagement.dto;
+package com.berkaykomur.ordermanagement.dto.refreshToken;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

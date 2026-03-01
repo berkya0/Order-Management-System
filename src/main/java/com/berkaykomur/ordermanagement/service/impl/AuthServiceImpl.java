@@ -1,15 +1,17 @@
 package com.berkaykomur.ordermanagement.service.impl;
 
 import com.berkaykomur.ordermanagement.dto.*;
+import com.berkaykomur.ordermanagement.dto.refreshToken.RefreshTokenRequest;
+import com.berkaykomur.ordermanagement.dto.refreshToken.RefreshTokenResponse;
 import com.berkaykomur.ordermanagement.entity.Customer;
 import com.berkaykomur.ordermanagement.entity.RefreshToken;
 import com.berkaykomur.ordermanagement.entity.User;
-import com.berkaykomur.ordermanagement.enums.CustomerStatus;
 import com.berkaykomur.ordermanagement.enums.Role;
 import com.berkaykomur.ordermanagement.exception.EmailAlreadyExitsException;
 import com.berkaykomur.ordermanagement.exception.PasswordOrUsernameNotFound;
 import com.berkaykomur.ordermanagement.exception.ResourceNotFoundException;
 import com.berkaykomur.ordermanagement.exception.UsernameAlreadyExistsException;
+import com.berkaykomur.ordermanagement.mapper.CustomerMapper;
 import com.berkaykomur.ordermanagement.mapper.UserMapper;
 import com.berkaykomur.ordermanagement.repository.RefreshTokenRepository;
 import com.berkaykomur.ordermanagement.repository.UserRepository;
@@ -51,7 +53,6 @@ public class AuthServiceImpl implements AuthService {
         user.setRole(Role.CUSTOMER);
 
         Customer customer=customerMapper.toEntity(request);
-        customer.setCustomerStatus(CustomerStatus.ACTIVE);
         user.setCustomer(customer);
         customer.setUser(user);
 

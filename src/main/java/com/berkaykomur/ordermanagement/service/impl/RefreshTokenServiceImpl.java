@@ -1,12 +1,11 @@
 package com.berkaykomur.ordermanagement.service.impl;
 
-import com.berkaykomur.ordermanagement.dto.RefreshTokenResponse;
+import com.berkaykomur.ordermanagement.dto.refreshToken.RefreshTokenResponse;
 import com.berkaykomur.ordermanagement.entity.RefreshToken;
 import com.berkaykomur.ordermanagement.entity.User;
 import com.berkaykomur.ordermanagement.exception.RefreshTokenExpiredException;
 import com.berkaykomur.ordermanagement.mapper.RefreshTokenMapper;
 import com.berkaykomur.ordermanagement.repository.RefreshTokenRepository;
-import com.berkaykomur.ordermanagement.repository.UserRepository;
 import com.berkaykomur.ordermanagement.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

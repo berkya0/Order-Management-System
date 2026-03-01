@@ -1,6 +1,6 @@
 package com.berkaykomur.ordermanagement.mapper;
 
-import com.berkaykomur.ordermanagement.dto.RefreshTokenResponse;
+import com.berkaykomur.ordermanagement.dto.refreshToken.RefreshTokenResponse;
 import com.berkaykomur.ordermanagement.entity.RefreshToken;
 import org.mapstruct.Mapper;
 

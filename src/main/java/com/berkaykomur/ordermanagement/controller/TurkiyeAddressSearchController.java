@@ -1,19 +1,15 @@
 package com.berkaykomur.ordermanagement.controller;
 
-import com.berkaykomur.ordermanagement.dto.customerAdress.AddressRequest;
-import com.berkaykomur.ordermanagement.dto.customerAdress.AddressResponse;
 import com.berkaykomur.ordermanagement.external.TurkiyeApiService;
 import com.berkaykomur.ordermanagement.external.TurkiyeApiAddressResponse;
-import com.berkaykomur.ordermanagement.service.CustomerAddressService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/address")
+@RequestMapping("/api/address/external")
 @RequiredArgsConstructor
-public class AddressController {
+public class TurkiyeAddressSearchController {
     private final TurkiyeApiService turkiyeApiService;
 
     @GetMapping("/search")
