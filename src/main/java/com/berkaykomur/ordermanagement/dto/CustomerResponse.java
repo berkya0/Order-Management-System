@@ -8,6 +8,5 @@ public class CustomerResponse {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private CustomerStatus status;
 
 }

@@ -3,6 +3,7 @@ package com.berkaykomur.ordermanagement.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +14,15 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiError> handleAuthException(AuthenticationException ex) {
+        ApiError apiError= ApiError.builder()
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .message("password or username is incorrect")
+                .error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
+                .build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiError);
+    }
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ApiError> handleException(BaseException e, HttpServletRequest request) {
         ApiError apiError =ApiError.builder()

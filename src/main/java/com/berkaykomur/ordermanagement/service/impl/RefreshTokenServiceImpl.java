@@ -31,7 +31,10 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         refreshToken.setExpiryDate(LocalDateTime.now().plusSeconds(refreshTokenExpiration));
         refreshToken.setUser(user);
         refreshTokenRepository.save(refreshToken);
-        return refreshTokenMapper.toRefreshTokenResponse(refreshToken);
+        RefreshTokenResponse response = new RefreshTokenResponse();
+        response.setRefreshToken(refreshToken.getRefreshToken());
+        response.setExpiryDate(refreshToken.getExpiryDate());
+        return response;
     }
 
     @Override

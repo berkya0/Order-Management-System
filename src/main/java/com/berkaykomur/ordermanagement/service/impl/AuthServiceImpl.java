@@ -1,6 +1,9 @@
 package com.berkaykomur.ordermanagement.service.impl;
 
-import com.berkaykomur.ordermanagement.dto.*;
+import com.berkaykomur.ordermanagement.dto.LoginRequest;
+import com.berkaykomur.ordermanagement.dto.LoginResponse;
+import com.berkaykomur.ordermanagement.dto.RegisterRequest;
+import com.berkaykomur.ordermanagement.dto.RegisterResponse;
 import com.berkaykomur.ordermanagement.dto.refreshToken.RefreshTokenRequest;
 import com.berkaykomur.ordermanagement.dto.refreshToken.RefreshTokenResponse;
 import com.berkaykomur.ordermanagement.entity.Customer;
@@ -39,6 +42,7 @@ public class AuthServiceImpl implements AuthService {
     private final RefreshTokenService  refreshTokenService;
     private final RefreshTokenRepository refreshTokenRepository;
 
+
     @Override
     @Transactional
     public RegisterResponse register(RegisterRequest request){
@@ -64,13 +68,17 @@ public class AuthServiceImpl implements AuthService {
     public LoginResponse login(LoginRequest request) {
         UsernamePasswordAuthenticationToken authToken=new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
         authenticationManager.authenticate(authToken);
+
         User user=userRepository.findByUsername(request.getUsername())
                 .orElseThrow(()->new PasswordOrUsernameNotFound("Password or username is incorrect"));
+
         String accessToken= jwtUtil.generateToken(user);
+
         RefreshTokenResponse refreshToken=refreshTokenService.createRefreshToken(user);
+
         LoginResponse loginResponse=userMapper.toLoginResponse(user);
         loginResponse.setAccessToken(accessToken);
-        loginResponse.setRefreshToken(refreshToken.toString());
+        loginResponse.setRefreshToken(refreshToken.getRefreshToken());
         loginResponse.setLastLogin(LocalDateTime.now());
         return loginResponse;
     }

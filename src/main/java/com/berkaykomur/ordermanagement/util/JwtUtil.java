@@ -52,7 +52,7 @@ public class JwtUtil {
     }
     public Boolean validateToken(String token, UserDetails userDetails){
         final String extractUsername= extractUsername(token);
-        return (extractUsername.equals(userDetails.getUsername())&&isTokenExpired(token));
+        return (extractUsername.equals(userDetails.getUsername())&&!isTokenExpired(token));
     }
     public Boolean isTokenExpired(String token){
         return extractAllClaims(token).getExpiration().before(new Date());

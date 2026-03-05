@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerAddressImpl implements CustomerAddressService {
+public class CustomerAddressServiceImpl implements CustomerAddressService {
     private final CustomerAddressRepository customerAddressRepository;
     private final CustomerRepository customerRepository;
     private final AddressMapper addressMapper;
@@ -38,10 +38,10 @@ public class CustomerAddressImpl implements CustomerAddressService {
 
     @Transactional
     @Override
-    public AddressResponse updateAddress(Long customer_id,Long address_id, AddressRequest address) {
-        CustomerAddress customerAddress = customerAddressRepository.findById(address_id)
+    public AddressResponse updateAddress(Long customerId,Long addressId, AddressRequest address) {
+        CustomerAddress customerAddress = customerAddressRepository.findById(addressId)
                 .orElseThrow(()->new ResourceNotFoundException("address not found"));
-        if(!customerAddress.getCustomer().getId().equals(customer_id)) {
+        if(!customerAddress.getCustomer().getId().equals(customerId)) {
             throw new ResourceNotFoundException("this address does not belong to this customer");
         }
         addressMapper.updateEntity(address,customerAddress);
@@ -50,13 +50,13 @@ public class CustomerAddressImpl implements CustomerAddressService {
 
     @Transactional
     @Override
-    public void deleteAddress(Long customer_id,Long address_id) {
-        CustomerAddress customerAddress=customerAddressRepository.findById(address_id)
+    public void deleteAddress(Long customerId,Long addressId) {
+        CustomerAddress customerAddress=customerAddressRepository.findById(addressId)
                 .orElseThrow(()->new ResourceNotFoundException("address not found"));
-        if(!customerAddress.getCustomer().getId().equals(customer_id)) {
+        if(!customerAddress.getCustomer().getId().equals(customerId)) {
             throw new ResourceNotFoundException("this address does not belong to this customer");
         }
-        customerAddressRepository.deleteById(address_id);
+        customerAddressRepository.deleteById(addressId);
     }
 
 

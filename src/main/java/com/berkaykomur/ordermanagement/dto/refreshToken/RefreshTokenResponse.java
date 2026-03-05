@@ -1,5 +1,6 @@
 package com.berkaykomur.ordermanagement.dto.refreshToken;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,5 +12,6 @@ public class RefreshTokenResponse {
 
     private String accessToken;
     private String refreshToken;
-    private LocalDateTime refreshTokenExpiry;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime expiryDate;
 }

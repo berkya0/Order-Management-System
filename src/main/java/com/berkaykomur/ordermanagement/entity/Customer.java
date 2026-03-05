@@ -16,10 +16,6 @@ import java.util.List;
 @Where(clause = "is_active=true")
 public class Customer extends Person{
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private CustomerStatus customerStatus;
-
     @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
     private List<CustomerAddress> customerAddress;
     @OneToOne
