@@ -5,7 +5,7 @@ import com.berkaykomur.ordermanagement.dto.customerAdress.AddressResponse;
 
 public class TestDataUtil {
 
-    public static AddressRequest createAddressRequest() {
+    public static AddressRequest setAddressRequest() {
         AddressRequest request = new AddressRequest();
         request.setProvince("İstanbul");
         request.setDistrict("Kadıköy");
@@ -18,7 +18,7 @@ public class TestDataUtil {
         return request;
     }
 
-    public static AddressResponse createAddressResponse() {
+    public static AddressResponse setAddressResponse() {
         AddressResponse response = new AddressResponse();
         response.setProvince("İstanbul");
         response.setDistrict("Kadıköy");

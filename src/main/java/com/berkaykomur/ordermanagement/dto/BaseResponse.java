@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class BaseResponse {
 
+    private Long id;
     private LocalDateTime  createdDate;
     private Boolean isActive;
 }
