@@ -11,6 +11,8 @@ import com.berkaykomur.ordermanagement.repository.CustomerRepository;
 import com.berkaykomur.ordermanagement.service.CustomerAddressService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,11 +41,8 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
     @Transactional
     @Override
     public AddressResponse updateAddress(Long customerId,Long addressId, AddressRequest address) {
-        CustomerAddress customerAddress = customerAddressRepository.findById(addressId)
-                .orElseThrow(()->new ResourceNotFoundException("address not found"));
-        if(!customerAddress.getCustomer().getId().equals(customerId)) {
-            throw new ResourceNotFoundException("this address does not belong to this customer");
-        }
+        CustomerAddress customerAddress = customerAddressRepository.findByIdAndCustomerId(customerId,addressId)
+                        .orElseThrow(()-> new ResourceNotFoundException("Address not found by id. "+addressId));
         addressMapper.updateEntity(address,customerAddress);
         return addressMapper.toResponse(customerAddressRepository.save(customerAddress));
     }
@@ -51,12 +50,15 @@ public class CustomerAddressServiceImpl implements CustomerAddressService {
     @Transactional
     @Override
     public void deleteAddress(Long customerId,Long addressId) {
-        CustomerAddress customerAddress=customerAddressRepository.findById(addressId)
-                .orElseThrow(()->new ResourceNotFoundException("address not found"));
-        if(!customerAddress.getCustomer().getId().equals(customerId)) {
-            throw new ResourceNotFoundException("this address does not belong to this customer");
-        }
-        customerAddressRepository.deleteById(addressId);
+        CustomerAddress customerAddress=customerAddressRepository.findByIdAndCustomerId(customerId,addressId)
+                        .orElseThrow(()->new ResourceNotFoundException("address not found by id. "+addressId));
+        customerAddressRepository.delete(customerAddress);
+    }
+
+    @Override
+    public Page<AddressResponse> getAllAddresses(Long customerId,Pageable pageable) {
+        Page<CustomerAddress> customerAddressPage = customerAddressRepository.findAllByCustomerId(customerId,pageable);
+        return customerAddressPage.map(addressMapper::toResponse);
     }
 
 

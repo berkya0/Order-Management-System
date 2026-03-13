@@ -23,10 +23,12 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @WebMvcTest(CustomerAddressController.class)
 @Import({JwtUtil.class})
 class CustomerAddressControllerTest {
 
+    //Düzenlenecek
     @Autowired
     private MockMvc mockMvc;
 
@@ -36,15 +38,19 @@ class CustomerAddressControllerTest {
     @MockitoBean
     private CustomerAddressService customerAddressService;
 
+    // Not: @AuthenticationPrincipal kullandığın için,
+    // testte MockUser'ın ID'sini simüle etmen gerekebilir.
     @Test
-    @WithMockUser
+    @WithMockUser(username = "1") // Basit bir yaklaşım, gerekirse CustomUser factory kullan
     void shouldCreateAddressSuccessfully() throws Exception {
-        Long customerId = 1L;
         AddressRequest addressRequest = TestDataUtil.setAddressRequest();
         AddressResponse addressResponse = TestDataUtil.setAddressResponse();
-        when(customerAddressService.createAddress(eq(customerId), any(AddressRequest.class)))
+
+        // Servis katmanında ID'nin 1L olarak geldiğini varsayıyoruz
+        when(customerAddressService.createAddress(eq(1L), any(AddressRequest.class)))
                 .thenReturn(addressResponse);
-        mockMvc.perform(post("/api/address/customer/createCustomer/{customer_id}",customerId)
+
+        mockMvc.perform(post("/api/address/customer/createAddress")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(addressRequest)))
@@ -52,16 +58,16 @@ class CustomerAddressControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "1")
     void shouldUpdateAddressSuccessfully() throws Exception {
-        Long customerId=1L;
-        Long addressId=2L;
-        AddressRequest addressRequest= TestDataUtil.setAddressRequest();
-        AddressResponse addressResponse= TestDataUtil.setAddressResponse();
-        when(customerAddressService.updateAddress(eq(customerId),eq(addressId),any(AddressRequest.class)))
+        Long addressId = 2L;
+        AddressRequest addressRequest = TestDataUtil.setAddressRequest();
+        AddressResponse addressResponse = TestDataUtil.setAddressResponse();
+
+        when(customerAddressService.updateAddress(eq(1L), eq(addressId), any(AddressRequest.class)))
                 .thenReturn(addressResponse);
-        mockMvc.perform(put("/api/address/customer/updateCustomer/{customer_id}/address/{address_id}"
-                        ,customerId, addressId)
+
+        mockMvc.perform(put("/api/address/customer/update/address/{address_id}", addressId)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(addressRequest)))
@@ -70,15 +76,14 @@ class CustomerAddressControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "1")
     void shouldDeleteAddressSuccessfully() throws Exception {
-        Long customerId=1L;
-        Long addressId=2L;
-        doNothing().when(customerAddressService).deleteAddress(eq(customerId),eq(addressId));
-        mockMvc.perform(delete("/api/address/customer/deleteCustomer/{customer_id}/address/{address_id}"
-                        ,customerId, addressId)
+        Long addressId = 2L;
+
+        doNothing().when(customerAddressService).deleteAddress(eq(1L), eq(addressId));
+
+        mockMvc.perform(delete("/api/address/customer/delete/address/{address_id}", addressId)
                         .with(csrf()))
                 .andExpect(status().isOk());
-
     }
 }
